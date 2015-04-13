@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>@ViewBag.Title - My ASP.NET MVC Application</title>
+        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <meta name="viewport" content="width=device-width" />
+        @Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")
+         <script src="~/Scripts/jquery.min.js"></script>
+        <script src="~/Scripts/jquery-ui.min.js"></script>
+        <script src="~/Scripts/jquery.validate-vsdoc.js"></script>
+        <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+        <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap.min.js"></script>
+
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+     <script>
+         $(document).ready(function () {
+             $("#datepicker").datepicker({
+                 changeMonth: true,
+                 changeYear: true
+             });
+         });
+       
+         $(document).ready(function () {
+             $("#datepicker1").datepicker({
+                 changeMonth: true,
+                 changeYear: true
+             });
+         });
+
+        
+
+</script>
+    </head>
+    <body>
+        <header>
+            <div class="container-fulid header-bg">
+                <div class="row">
+                    <div class="col-sm-3 col-xs-12">
+                        <div class="logo">
+                        <img src="~/Images/logo.png"  class="img-responsive"/></div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+        <div id="body">
+            @RenderSection("featured", required: false)
+            <section>
+                
+            <div class="container-fulid">
+                <div class="row">
+                <div class="col-sm-3 col-xs-12 no-padding">
+                <nav class="left-bar">
+                        <ul id="menu">
+                               <li class="viewChan">@Html.ActionLink("View Challan", "Index", "Bill")</li>
+                            <li class="Category">@Html.ActionLink("Category", "Index", "Category")</li>
+                            <li class="SubCategory">@Html.ActionLink("Sub Category", "Index", "SubCategory")</li>
+                            <li class="Tax">@Html.ActionLink("Tax", "Index", "Tax")</li>
+                            <li class="Customer">@Html.ActionLink("Customer", "Index", "Customer")</li>
+                             <li class="Stock">@Html.ActionLink("Stock", "Index", "Stock")</li>
+                             <li  class="Challan">@Html.ActionLink("Challan", "Index", "Challan")</li>
+@*                            <li  class="Bill">@Html.ActionLink("Bill", "BillDetails", "Bill")</li>*@
+                        </ul>
+                    </nav>
+                   @* <section id="login">
+                        @Html.Partial("_LoginPartial")
+                    </section>*@
+                   
+                </div>
+                     
+                @RenderBody()
+                     </div>
+            </div>
+            </section>
+        </div>
+          <div class="container-fulid">
+        <footer>
+              
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 text-center">&copy; @DateTime.Now.Year - German Homeopathic</div>
+                </div>
+            
+        </footer>
+              </div>
+  
+        @RenderSection("scripts", required: false)
+    </body>
+</html>

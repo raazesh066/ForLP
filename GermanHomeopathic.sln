@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp", "GermanHomeopathic\WebApp.csproj", "{58017D60-67C6-4D7D-B898-33FDD30D0937}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DOM", "DOM\DOM.csproj", "{084E5FB1-0D78-41C6-A20A-DF0BE46D5496}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{B8F3DDCA-534F-4281-A0DB-895B56F7C847}"
+EndProject
+Global
+	GlobalSection(SourceCodeControl) = preSolution
+		SccNumberOfProjects = 4
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = DAL\\DAL.csproj
+		SccLocalPath1 = .
+		SccProjectFilePathRelativizedFromConnection1 = DAL\\
+		SccProjectUniqueName2 = DOM\\DOM.csproj
+		SccLocalPath2 = .
+		SccProjectFilePathRelativizedFromConnection2 = DOM\\
+		SccProjectUniqueName3 = GermanHomeopathic\\WebApp.csproj
+		SccLocalPath3 = .
+		SccProjectFilePathRelativizedFromConnection3 = GermanHomeopathic\\
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{58017D60-67C6-4D7D-B898-33FDD30D0937}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58017D60-67C6-4D7D-B898-33FDD30D0937}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58017D60-67C6-4D7D-B898-33FDD30D0937}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58017D60-67C6-4D7D-B898-33FDD30D0937}.Release|Any CPU.Build.0 = Release|Any CPU
+		{084E5FB1-0D78-41C6-A20A-DF0BE46D5496}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{084E5FB1-0D78-41C6-A20A-DF0BE46D5496}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{084E5FB1-0D78-41C6-A20A-DF0BE46D5496}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{084E5FB1-0D78-41C6-A20A-DF0BE46D5496}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8F3DDCA-534F-4281-A0DB-895B56F7C847}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8F3DDCA-534F-4281-A0DB-895B56F7C847}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8F3DDCA-534F-4281-A0DB-895B56F7C847}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8F3DDCA-534F-4281-A0DB-895B56F7C847}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

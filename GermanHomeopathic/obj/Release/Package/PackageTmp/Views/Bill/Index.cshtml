@@ -1,0 +1,137 @@
+﻿@model GermanHomeopathic.Models.BillViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@using (Html.BeginForm())
+{
+    
+    <div class="col-sm-9 col-xs-12">
+        <div class="page-heading">View Bill</div>
+        <div class="right-bar">
+
+            <div>@Html.ValidationSummary(true)</div>
+            <div class="row form-group">
+                <div class="col-sm-6 col-xs-12">
+                    @Html.LabelFor(m => m.CustomerId) <span class="clr-red">*</span>
+                    @Html.DropDownListFor(m => m.CustomerId, new SelectList(Model.lstCustomer, "CustomerId", "CustomerName"), "--Select--", new { @class = "form-control input-sm" })
+                    @Html.HiddenFor(m => m.CustomerId)
+                    @Html.ValidationMessageFor(m => m.CustomerId)
+                </div>
+
+                <div class="col-sm-6 col-xs-12">
+
+                    @Html.LabelFor(m => m.BillId)
+                    @Html.TextBoxFor(m => m.BillId, new { @class = "form-control input-sm" })
+
+                </div>
+
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-6 col-xs-12">
+                    @Html.LabelFor(m => m.FromDate)
+                    @Html.TextBoxFor(m => m.FromDate, new { @Value = Model.FromDate != null ? Convert.ToDateTime(Model.FromDate).ToString("dd/MM/yyyy", new System.Globalization.CultureInfo("en-US")) : string.Empty, @class = "form-control input-sm", @readonly = true, @id = "datepicker1" })
+
+                </div>
+
+                <div class="col-sm-6 col-xs-12">
+                    @Html.LabelFor(m => m.ToDate)
+                    @Html.TextBoxFor(m => m.ToDate, new { @Value = Model.ToDate != null ? Convert.ToDateTime(Model.ToDate).ToString("dd/MM/yyyy", new System.Globalization.CultureInfo("en-US")) : string.Empty, @class = "form-control input-sm", @readonly = true, @id = "datepicker2" })
+                </div>
+
+            </div>
+
+            <div class="text-right">
+                <input type="submit" value="GO" class="btns" />
+            </div>
+
+
+        </div>
+
+        @if (Model.lstBill.Count == 0)
+        {
+
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>SR No</th>
+                            <th>Bill Id</th>
+                            <th>Bill Date</th>
+                            <th>Customer Name</th>
+                            <th>Customer Address</th>
+                            <th>Amount</th>
+                            <th>TaxAmount</th>
+                            <th>TotalAmount</th>
+                            <th class="action-td">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @{
+            var count = 1;
+
+            foreach (var item in Model.lstBill)
+            {
+                            <tr>
+                                <td>@(count++)</td>
+                                <td>@item.BillId</td>
+                                <td>@item.BillDate.ToShortDateString()</td>
+                                <td>@item.CustomerName</td>
+                                <td>@item.CustomerAddress</td>
+                                <td>@item.AmountWithoutTax</td>
+                                <td>@item.TaxAmount</td>
+                                <td>@item.TotalAmount</td>
+                                <td>
+                                    <a  href="@Url.Content("~/ReportsViewer/Index?ChallanId=" + item.ChallanId)" class="glyphicon glyphicon-print" title="Print Challan"></a>
+                                    <a  href="@Url.Content("~/Bill/BillDetails?ChallanId=" + item.ChallanId + "&BillId=" + item.BillId)" class="glyphicon glyphicon-plus" title="Add Details"></a>
+                                    <a  href="@Url.Content("~/ReportsViewer/GenerateBill?ChallanId=" + item.ChallanId + "&BillId=" + item.BillId)"  class="glyphicon glyphicon-list-alt" title="Generate Bill"></a>
+
+
+                                </td>
+                            </tr>
+            
+            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+   
+   
+        }
+    </div>
+}
+
+@section Scripts
+{
+    @Scripts.Render("~/bundles/Common")
+
+    <script type="text/javascript">
+        $(":input[data-val-date]").datepicker({
+            dateFormat: 'dd/mm/yy',
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "-50:+10",
+            onClose: function (selectedDate) {
+                if ($(this).attr("id") != "EndDate") {
+                    $("#EndDate").datepicker("option", "minDate", selectedDate);
+                }
+            }
+
+        }).css("background-color", "#fff !important").css("cursor", "text !important");
+
+    </script>
+    <script>
+        $(document).ready(function () {
+            $(".viewChan").addClass("active-item");
+            if ('@TempData["SuccessMsg"]' != "") {
+                alert('@TempData["SuccessMsg"]');
+        }
+
+        });
+    </script>
+}

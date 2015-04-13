@@ -1,0 +1,27 @@
+﻿@model GermanHomeopathic.Models.CategoryDetailViewModel
+
+
+@using (Html.BeginForm())
+{
+
+    if (Model.lstcategory.Count < 0)
+    {
+        
+    }
+    else
+    {
+        var count = 0;
+        
+        foreach (var item in Model.lstcategory)
+        {
+            <table>
+                <tr>
+                    <td>(@count++)</td>
+                    <td>@item.CategoryName</td>
+                    <td>@item.Rate</td>
+                </tr>
+            </table>
+        }
+    }
+    
+}

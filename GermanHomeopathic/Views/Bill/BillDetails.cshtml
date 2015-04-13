@@ -1,0 +1,275 @@
+﻿@model GermanHomeopathic.Models.BillDetailViewModel
+
+@{
+    ViewBag.Title = "BillDetails";
+}
+
+
+@using (Html.BeginForm("AddSubCategoryToCategory", "Bill", FormMethod.Post))
+{
+    
+        <div class="col-sm-9 col-xs-12">
+        <div class="page-heading">Bill</div>
+        <div class="right-bar">
+
+             <div>@Html.ValidationSummary(true)</div>
+
+            <div class="row form-group">
+               
+    <div class="col-sm-3">
+        <b>@Html.LabelFor(m => m.CustomerName) :</b></div>
+       <div class="col-sm-3"> @Html.DisplayFor(m => m.CustomerName)
+    </div>
+                  
+                
+    <div class="col-sm-3">
+         <b>@Html.LabelFor(m => m.CustomerAddress) :</b></div>
+       <div class="col-sm-3"> @Html.DisplayFor(m => m.CustomerAddress)
+    </div>
+    
+    </div></div>
+    <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+
+        <tr>
+            <th>SNo</th>
+            <th>CategoryName</th>
+            <th>Quantity</th>
+        </tr>
+
+
+        @for (var i = 0; i < Model.lstDetails.Count; i++)
+        {
+        
+            <tr class="cate">
+                <td>@(i + 1)</td>
+                <td><a href="#" class="ShowSubCategory" style="color:blue; text-decoration:underline">@Model.lstDetails[i].CategoryName</a></td>
+                
+                @Html.HiddenFor(m => Model.lstDetails[i].CategoryId, new { @class = "hiddenCategoryId" })
+
+                @*@Html.HiddenFor(m=>Model.lstDetails[i].SubCategoryId)*@
+                @*  @Html.HiddenFor(m=>Model.lstDetails[i].CurrentStock)*@
+                <td class="CatQuantity">@Model.lstDetails[i].CategoryQuantity</td>
+              
+
+            </tr>
+            <tr style="display: none" class="tableSubCategory">
+                <td colspan="3">
+                   <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                        @if (Model.lstDetails[i].lstSubCategory.Count > 0)
+                        {
+                            for (int j = 0; j < Model.lstDetails[i].lstSubCategory.Count; j++)
+                            {
+                            <tr>
+                                @Html.HiddenFor(m => Model.lstDetails[i].lstSubCategory[j].SubCategoryId)
+                                <td>@(i + 1).@(j + 1)</td>
+                                <td>@Model.lstDetails[i].lstSubCategory[j].SubCategoryName</td>
+                                <td>@Html.TextBoxFor(m => Model.lstDetails[i].lstSubCategory[j].Quantity, new { @class = "quantity" })</td>
+                               @* <td style="display:none" ><span class="Stock"></span></td>*@
+                            </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td>No Subcategory Available
+                                </td>
+                            </tr>   
+                        }
+
+                    </table>
+                       </div>
+                </td>
+            </tr>
+
+        }
+
+        @Html.HiddenFor(m => m.ChallanId)
+        @Html.HiddenFor(m => m.BillId)
+
+    </table>
+        </div>
+            <div class="text-right"> 
+    <input type="submit" value="Submit"  class="btns"/>
+                </div>
+    </div>
+    
+    
+    
+   
+@*<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel"></h4>
+                </div>
+                <div class="modal-body content">
+                </div>
+                <div class="modal-footer btn">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" name="AddSubCategoryToCategory" class="btn btn-primary" >Add</button>
+                </div>
+            </div>
+        </div>
+    </div>*@
+    
+}
+
+
+
+
+
+<script type="text/javascript">
+
+    $('.quantity').change(function () {
+        debugger
+        var Id = $(this).attr("Id");
+        var quantity = $(this).val();
+        var categoryId = $(this).closest("tr").closest(".tableSubCategory").prev('tr').find('.hiddenCategoryId').val();
+        //var categoryId = $('.mainTable').find('.hiddenCategoryId').first().val();
+        var subcategoryId = $(this).closest("tr").find(":first-child").val();
+
+       var CatQuantity = $('.CatQuantity').html();
+        var totalQuantity=0;
+        $('.quantity').each(function () {
+            debugger
+            totalQuantity += parseInt($(this).val());
+        });
+
+        if (CatQuantity < totalQuantity) {
+            debugger
+            $("#" + Id).val('');
+            $("#" + Id).focus();
+            alert("Sum Of Quantity Value cannot be Greater Than Category Quantity")
+        }
+        else {
+            $.ajax({
+
+                url: '@Url.Action("ReadStockByCategoryIdSubCategoryId", "Bill")',
+                data: { 'categoryId': categoryId, 'subcategoryId': subcategoryId },
+                type: 'POST',
+                async: false,
+                success: function (stock) {
+                    debugger
+                    if (stock < quantity) {
+                        $("#" + Id).val('');
+                        $("#" + Id).focus();
+                        alert('Quantity is more than Stock Available stock Available=' + stock)
+                    }
+                }
+            });
+        }
+        return false;
+    });
+
+
+    $('.ShowSubCategory').click(function () {
+
+        $(this).closest('tr').next().toggle()
+    });
+
+</script>
+
+
+
+<script>
+    $(document).ready(function () {
+        if ('@TempData["SuccessMsg"]' != "") {
+                alert('@TempData["SuccessMsg"]');
+            }
+
+        });
+     </script>  
+
+
+
+@*<script>
+    $(document).ready(function () {
+        $(".Bill").addClass("active-item");
+
+
+    });
+     </script>  *@
+
+@*function ReadSubCategoryByCategoryId(categoryId) {
+        
+            var str;
+            $.ajax({
+
+                url: '@Url.Action("ReadSubCategoryByCategoryId", "Bill")',
+            data: { 'categoryId': categoryId },
+            type: 'POST',
+            async: false,
+            success: function (category) {
+                debugger
+                if (category.length > 0) {
+                    var count = 1;
+                    str = '<table border="1" cellspacing="10" cellpadding="10"><tr><th>SNO</th><th>Sub Category Name</th><th>Quantity</th></tr>';
+
+                    $.each(category, function (i, cat) {
+                        debugger
+                        str = str + '<td>' + count++ + '</td>';
+                        str = str + '<td>' + cat.SubCategoryName + '</td>';
+
+                        str = str + '<td><input id="Qty" type="text"/></td></tr> ';
+                        str = str + '<td><input id="SubCategoryId" type="hidden" value=' + cat.SubCategoryId + '/></td></tr> ';
+                        str = str + '<td><input id="categoryId" type="hidden" value=' + cat.categoryId + ' /></td></tr> ';
+                    });
+
+                    str += '</table>';
+                    $('.btn').show();
+                }
+                else {
+
+                    str = 'No SubCategory Available';
+                    $('.btn').hide();
+                }
+
+            },
+            error: function (error) { alert("hello"); }
+
+
+        });
+        $('.content').html(str);
+    }
+*@
+
+
+
+@*    function AddSubCategoryToCategory(categoryId, SubCategoryId, Quantity) {
+        $.ajax({
+
+            url: '@Url.Action("AddSubCategoryToCategory", "Bill")',
+            data: { 'CatId': categoryId, 'SubCatId': SubCategoryId, 'Qty': Quantity },
+            type: 'POST',
+            async: false,
+            success: function (details) {
+
+            }
+        });
+
+    }
+*@
+
+
+
+
+@*        $('.Qty').change(function() {
+
+            $.ajax({
+
+                url: '@Url.Action("ReadStockByCategoryIdSubCategoryId", "Bill")',
+            data: { 'categoryId': categoryId, 'SubCategoryId': SubCategoryId },
+            type: 'POST',
+            async: false,
+            success: function (category) {
+            }
+        });
+
+    });*@
+
+
+
+

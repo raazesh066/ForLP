@@ -1,0 +1,150 @@
+﻿@model GermanHomeopathic.Models.CustomerViewModel
+
+
+@{
+    ViewBag.Title = "Customer";
+    string act = "";
+}
+
+@if (Model.IsEdit == true)
+{
+    act = "Edit";
+}
+else
+{
+    act = "Index";
+}
+    
+
+@using (Html.BeginForm(act, "Customer"))
+{
+    
+    
+       <div class="col-sm-9 col-xs-12">
+        <div class="page-heading">Customer</div>
+        <div class="right-bar">
+
+    <div>@Html.ValidationSummary(true)</div>
+
+       <div class="row form-group">
+    <div class="col-xs-12 col-sm-6">
+        @Html.LabelFor(m => m.CustomerName)  <span class="clr-red">*</span>
+  
+        @Html.TextBoxFor(m => m.CustomerName , new { @class = "form-control input-sm" })
+         @Html.ValidationMessageFor(m => m.CustomerName)
+    </div>
+ 
+       <div class="col-xs-12 col-sm-6">@Html.LabelFor(m => m.CustomerAddress)  <span class="clr-red">*</span>
+  
+        @Html.TextBoxFor(m => m.CustomerAddress , new { @class = "form-control input-sm" })
+         @Html.ValidationMessageFor(m => m.CustomerAddress)
+    </div>
+       </div>
+
+      <div class="row form-group">
+    <div class="col-xs-12 col-sm-6">@Html.LabelFor(m => m.CustomerPhone)  <span class="clr-red">*</span>
+
+     
+
+        @Html.TextBoxFor(m => m.CustomerPhone , new { @class = "form-control input-sm" })
+          @Html.ValidationMessageFor(m => m.CustomerPhone)
+    </div>
+
+  <div class="col-xs-12 col-sm-6">@Html.LabelFor(m => m.TinNumber)  <span class="clr-red">*</span>
+  
+        @Html.TextBoxFor(m => m.TinNumber , new { @class = "form-control input-sm" })
+         @Html.ValidationMessageFor(m => m.TinNumber)
+
+    </div>
+
+          </div>
+   <div class="row form-group">
+    <div class="col-xs-12 col-sm-6">@Html.LabelFor(m => m.TaxId)  <span class="clr-red">*</span>
+
+   
+     @Html.DropDownListFor(m => m.TaxId, new SelectList(Model.lstTax, "TaxId", "TaxName"), "--Select--" , new { @class = "form-control input-sm" })
+         @Html.ValidationMessageFor(m => m.TaxId)
+    </div>
+       </div>
+    
+    @if (Model != null)
+    {
+        @Html.HiddenFor(model => model.CustomerId, new {value = Model.CustomerId })
+    }
+
+    <div class="text-right">
+          @if(Model.CustomerId==0)
+        {
+
+       <input type="submit" value="Submit" class="btns"/>
+        }
+        else
+        
+        {
+            <input type="submit" value="Edit" class="btns"/>
+        }
+
+    </div>
+
+</div>
+@if (Model!=null && Model.Customers.Count < 0)
+{
+    <div>No record found</div>
+}
+else
+{
+  <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>SR No</th>
+                <th>Customer Name</th>
+                 <th>Customer Address</th>
+                 <th>Customer Phone No</th>
+                <th>Tin Number</th>
+                <th>Tax Type</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @{
+    var count = 1;
+
+    foreach (var item in Model.Customers)
+    {
+                <tr>
+                    <td>@(count++)</td>
+                    <td>@item.CustomerName</td>
+                    <td>@item.CustomerAddress</td>
+                    <td>@item.CustomerPhone</td>
+                    <td>@item.TinNumber</td>
+                    <td>@item.TaxName</td>
+                    <td>
+                         @Html.ActionLink("Edit", "Edit",  new { id = item.CustomerId} , new {@class="glyphicon glyphicon-edit" })
+                        @Html.ActionLink("Delete", "Delete",  new { id = item.CustomerId} , new {@class="glyphicon glyphicon-trash" })
+
+                    </td>
+                </tr>
+            
+    }
+            }
+        </tbody>
+    </table>
+      </div>
+}
+
+    </div>
+}
+
+@section Scripts {
+<script>
+        $(document).ready(function () {
+            $(".Customer").addClass("active-item");
+            if ('@TempData["SuccessMsg"]' != "") {
+                alert('@TempData["SuccessMsg"]');
+            }
+
+        });
+     </script>  
+      }
