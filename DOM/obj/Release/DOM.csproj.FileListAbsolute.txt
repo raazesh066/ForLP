@@ -1,7 +1,0 @@
-D:\GermanHomeopathy_New\DOM\bin\Release\DOM.dll
-D:\GermanHomeopathy_New\DOM\bin\Release\DOM.pdb
-D:\GermanHomeopathy_New\DOM\bin\Release\CsvHelper.dll
-D:\GermanHomeopathy_New\DOM\bin\Release\CsvHelper.pdb
-D:\GermanHomeopathy_New\DOM\bin\Release\CsvHelper.xml
-D:\GermanHomeopathy_New\DOM\obj\Release\DOM.dll
-D:\GermanHomeopathy_New\DOM\obj\Release\DOM.pdb
